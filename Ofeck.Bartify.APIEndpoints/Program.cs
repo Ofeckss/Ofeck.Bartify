@@ -36,8 +36,16 @@ builder.Services
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!)),
                     ClockSkew = TimeSpan.Zero
                 };
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        context.Token = context.Request.Cookies["jwt"];
+                        return Task.CompletedTask;
+                    }
+                };
             }
-       );
+        );
 
 builder.Services.AddCors(options => {
     options.AddPolicy("BartifyPolicy", policy => {
@@ -54,6 +62,7 @@ builder.Services.AddCors(options => {
         });
         policy.AllowAnyHeader();
         policy.AllowAnyMethod();
+        policy.AllowCredentials();
     });
 });
 

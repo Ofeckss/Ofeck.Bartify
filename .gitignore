@@ -1,1 +1,13 @@
-/Ofeck.Bartify.slnx
+# Build
+**/obj/
+**/bin/
+
+# IDE
+.idea/
+
+# Secrets
+appsettings.Development.json
+
+# Archivos basura
+Class1.cs
+Ofeck.Bartify.csproj

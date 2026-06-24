@@ -44,20 +44,27 @@ public class UsuarioController: ControllerBase
         try
         {
             var login = await this.usuarioService.Login(request);
-
             var token = this.tokenService.CreateToken(login.Id, login.Email);
 
-            return this.Ok( new {
-                accessToken = token,
-                tokenType = "Bearer"
+            Response.Cookies.Append("jwt", token, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.None,
+                Expires = DateTimeOffset.UtcNow.AddDays(7)
             });
-        } catch (UnauthorizedAccessException)
+
+            return this.Ok(new { message = "Login exitoso" });
+        } 
+        catch (UnauthorizedAccessException)
         {
             return Unauthorized("Contraseña incorrecta");
-        }catch (ArgumentException ae)
+        }
+        catch (ArgumentException ae)
         {
             return this.UnprocessableEntity(ae.Message);
-        } catch (Exception e)
+        } 
+        catch (Exception e)
         {
             return this.Problem(e.StackTrace, title: "Ha ocurrido un error inesperado.");
         }
