@@ -1,6 +1,2 @@
 [build]
-builder = "railpack"
-buildCommand = "dotnet publish Ofeck.Bartify.APIEndpoints/Ofeck.Bartify.APIEndpoints.csproj -c Release -o out"
-
-[deploy]
-startCommand = "dotnet out/Ofeck.Bartify.APIEndpoints.dll"
+builder = "dockerfile"
