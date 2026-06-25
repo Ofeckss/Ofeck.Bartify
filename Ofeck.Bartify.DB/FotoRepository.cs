@@ -20,9 +20,9 @@ public class FotoRepository(IDbConnection db): IFotoRepository
     public async Task<List<Foto>> GetByArticulo(Guid articuloId)
     {
         var sql = """
-            SELECT id, url, articulo_id AS ArticuloId, orden
+            SELECT id as Id, url as Url, articulo AS ArticuloId, orden
             FROM fotos
-            WHERE articulo_id = @ArticuloId
+            WHERE articulo = @ArticuloId
             ORDER BY orden
             """;
 

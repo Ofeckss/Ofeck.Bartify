@@ -25,7 +25,7 @@ public class ArticuloController: ControllerBase
     {
         try
         {
-            var usuarioId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var usuarioId = Guid.Parse(User.FindFirstValue(JwtRegisteredClaimNames.Sub)!);
             
             var articulo = await this.articuloService.Create(request, usuarioId);
 

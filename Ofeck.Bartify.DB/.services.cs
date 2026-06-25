@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MySqlConnector;
 using Ofeck.Bartify.Core.Articulos;
 using Ofeck.Bartify.Core.Categorias;
+using Ofeck.Bartify.Core.Chats;
 using Ofeck.Bartify.Core.Estados;
 using Ofeck.Bartify.Core.Fotos;
 using Ofeck.Bartify.Core.Ubicaciones;
@@ -21,6 +22,7 @@ public static class ServiceContainer
         services.AddScoped<IUbicacionRepository, UbicacionRepository>();
         services.AddScoped<IArticuloRepository, ArticuloRepository>();
         services.AddScoped<IFotoRepository, FotoRepository>();
+        services.AddScoped<IChatRepository, ChatRepository>();
 
         return services;
     }

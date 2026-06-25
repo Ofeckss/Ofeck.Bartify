@@ -13,3 +13,4 @@ C:\Users\ofeck\RiderProjects\Ofeck.Bartify\Ofeck.Bartify.DB\obj\Debug\net10.0\Of
 C:\Users\ofeck\RiderProjects\Ofeck.Bartify\Ofeck.Bartify.DB\obj\Debug\net10.0\refint\Ofeck.Bartify.DB.dll
 C:\Users\ofeck\RiderProjects\Ofeck.Bartify\Ofeck.Bartify.DB\obj\Debug\net10.0\Ofeck.Bartify.DB.pdb
 C:\Users\ofeck\RiderProjects\Ofeck.Bartify\Ofeck.Bartify.DB\obj\Debug\net10.0\ref\Ofeck.Bartify.DB.dll
+C:\Users\ofeck\RiderProjects\Ofeck.Bartify\Ofeck.Bartify.DB\obj\Debug\net10.0\Ofeck.Bartify.DB.sourcelink.json

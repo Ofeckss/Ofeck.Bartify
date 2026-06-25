@@ -4,5 +4,5 @@ namespace Ofeck.Bartify.Core.Ubicaciones;
 
 public interface IUbicacionRepository
 {
-    public Task<List<string>> GetAll();
+    public Task<List<Ubicacion>> GetAll();
 }

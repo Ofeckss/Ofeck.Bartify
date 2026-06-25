@@ -1,4 +1,6 @@
-﻿namespace Ofeck.Bartify.Core.Ubicaciones;
+﻿using Ofeck.Bartify.Core.Models;
+
+namespace Ofeck.Bartify.Core.Ubicaciones;
 
 public class UbicacionService
 {
@@ -9,7 +11,7 @@ public class UbicacionService
         this.repository = repository;
     }
 
-    public async Task<List<string>> GetUbicaciones()
+    public async Task<List<Ubicacion>> GetUbicaciones()
     {
         var ubicaciones = await this.repository.GetAll();
 

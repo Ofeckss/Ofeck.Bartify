@@ -44,17 +44,17 @@ public class UsuarioController: ControllerBase
         try
         {
             var login = await this.usuarioService.Login(request);
-            var token = this.tokenService.CreateToken(login.Id, login.Email);
+            var token = this.tokenService.CreateToken(login.Id, login.Email, login.Nombre);
 
             Response.Cookies.Append("jwt", token, new CookieOptions
             {
                 HttpOnly = true,
                 Secure = true,
                 SameSite = SameSiteMode.None,
-                Expires = DateTimeOffset.UtcNow.AddDays(7)
+                Expires = DateTimeOffset.UtcNow.AddDays(1)
             });
 
-            return this.Ok(new { message = "Login exitoso" });
+            return this.Ok(new { nombre = login.Nombre, email = login.Email });
         } 
         catch (UnauthorizedAccessException)
         {

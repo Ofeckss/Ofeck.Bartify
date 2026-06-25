@@ -3,6 +3,7 @@
 public readonly record struct LoginDTO
 (
     Guid Id,
+    string Nombre,
     string Email,
     string Password,
     bool Activo

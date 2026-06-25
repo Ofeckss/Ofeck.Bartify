@@ -3,5 +3,6 @@
 public readonly record struct Token
 (
     Guid Id,
+    string Nombre,
     string Email
 );
