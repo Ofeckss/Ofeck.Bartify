@@ -1,3 +1,4 @@
+using System.IdentityModel.Tokens.Jwt;
 using Ofeck.Bartify.Core;
 using Ofeck.Bartify.DB;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -6,6 +7,8 @@ using System.Text;
 using Microsoft.AspNetCore.Http.Features;
 using Ofeck.Bartify.APIEndpoints.Auth;
 using Ofeck.Bartify.Core.Fotos.Requests;
+using Ofeck.Bartify.Core.Integrations.Sendbird;
+using Ofeck.Bartify.Core.Sendbird;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +23,8 @@ builder.Services.AddOpenApi();
 builder.Services.AddRepositories(
     builder.Configuration.GetConnectionString("mysql")! 
 );
+
+JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
 builder.Services
        .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -69,6 +74,7 @@ builder.Services.AddCors(options => {
 builder.Services.Configure<CloudinaryRequest>(
     builder.Configuration.GetSection("Cloudinary")
 );
+builder.Services.AddHttpClient<ISendbirdRepository, SendbirdService>();
 
 builder.Services.Configure<FormOptions>(options =>
 {

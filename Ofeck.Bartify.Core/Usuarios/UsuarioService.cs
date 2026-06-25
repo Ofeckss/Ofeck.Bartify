@@ -1,5 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using Ofeck.Bartify.Core.Models;
+using Ofeck.Bartify.Core.Sendbird;
 using Ofeck.Bartify.Core.Usuarios.Requests;
 using Ofeck.Bartify.Core.Usuarios.DTOs;
 
@@ -8,9 +9,11 @@ namespace Ofeck.Bartify.Core.Usuarios;
 public class UsuarioService
 {
     private readonly IUsuarioRepository repository;
-    public UsuarioService(IUsuarioRepository repository)
+    private readonly ISendbirdRepository sendbird;
+    public UsuarioService(IUsuarioRepository repository, ISendbirdRepository sendbird)
     {
         this.repository = repository;
+        this.sendbird = sendbird;
     }
 
     public async Task<bool> Register(RegisterUserRequest request)
@@ -41,11 +44,11 @@ public class UsuarioService
             null,
             hashedPass,
             true,
-            null,
             DateTime.Now
         );
         
         await this.repository.Create(usuario);
+        await this.sendbird.CreateUser(usuario.Id, usuario.Nombre);
         return true;
     }
 
@@ -65,6 +68,7 @@ public class UsuarioService
         return new Token {
             Id = account.Id,
             Email = account.Email,
+            Nombre = account.Nombre
         };
     }
 

@@ -11,6 +11,5 @@ public readonly record struct Usuario
     double? Rating,
     string Password,
     bool Activo,
-    string SendbirdId,
     DateTime FechaCreacion
 );
