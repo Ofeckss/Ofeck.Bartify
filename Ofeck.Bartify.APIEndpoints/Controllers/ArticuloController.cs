@@ -23,17 +23,8 @@ public class ArticuloController: ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateArticulo([FromBody] CreateArticuloRequest request)
     {
-        try
-        {
-            var usuarioId = Guid.Parse(User.FindFirstValue(JwtRegisteredClaimNames.Sub)!);
-            
-            var articulo = await this.articuloService.Create(request, usuarioId);
-
-            return this.Created($"api/articulos/{articulo.Id}",articulo);
-        } catch (Exception e)
-        {
-            return this.Problem(e.Message, title: e.StackTrace);
-        }
+        var claims = User.Claims.Select(c => $"{c.Type}: {c.Value}");
+        return Ok(claims);
     }
 
     [HttpGet]
