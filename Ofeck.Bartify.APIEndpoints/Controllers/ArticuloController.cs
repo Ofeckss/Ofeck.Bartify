@@ -22,7 +22,8 @@ public class ArticuloController: ControllerBase
     [Authorize]
     [HttpPost]
     public async Task<IActionResult> CreateArticulo([FromBody] CreateArticuloRequest request)
-    try
+    {
+        try
         {
             var usuarioId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
             
@@ -33,6 +34,7 @@ public class ArticuloController: ControllerBase
         {
             return this.Problem(e.Message, title: e.StackTrace);
         }
+    }
 
     [HttpGet]
     public async Task<IActionResult> GetAll()
