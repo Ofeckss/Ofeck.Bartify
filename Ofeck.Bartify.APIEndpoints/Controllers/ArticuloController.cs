@@ -22,10 +22,17 @@ public class ArticuloController: ControllerBase
     [Authorize]
     [HttpPost]
     public async Task<IActionResult> CreateArticulo([FromBody] CreateArticuloRequest request)
-    {
-        var claims = User.Claims.Select(c => $"{c.Type}: {c.Value}");
-        return Ok(claims);
-    }
+    try
+        {
+            var usuarioId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            
+            var articulo = await this.articuloService.Create(request, usuarioId);
+
+            return this.Created($"api/articulos/{articulo.Id}",articulo);
+        } catch (Exception e)
+        {
+            return this.Problem(e.Message, title: e.StackTrace);
+        }
 
     [HttpGet]
     public async Task<IActionResult> GetAll()
