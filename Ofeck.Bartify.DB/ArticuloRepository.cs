@@ -122,7 +122,7 @@ public class ArticuloRepository(IDbConnection db): IArticuloRepository
                     };
                 },
                 param: new { Id = id.ToString() },
-                splitOn: "Id,Id,Id"
+                splitOn: "Id,Id,VendedorId"
             );
 
         return articulos.FirstOrDefault();
