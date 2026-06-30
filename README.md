@@ -1,6 +1,8 @@
 # Backend de Bartify
 
 Backend escrito en C# para la app web Bartify, proyecto de Integradora 2 en la UTRM 2026.
+###Desarrollador:
+Ofeck Megidish Ascencio
 
 ## Patches
 
