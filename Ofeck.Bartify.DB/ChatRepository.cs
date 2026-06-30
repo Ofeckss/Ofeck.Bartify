@@ -42,7 +42,7 @@ public class ChatRepository(IDbConnection db): IChatRepository
                 from chats 
                 inner join articulos on chats.articulo_principal = articulos.id
                 inner join fotos on articulos.id = fotos.articulo and fotos.orden = 0
-                where comprador_id = @Id or vendedor_id = @Id
+                where chats.comprador_id = @Id or chats.vendedor_id = @Id
             """;
 
         var chats = await db.QueryAsync<ChatDTO>(sql, new { Id = id });
