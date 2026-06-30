@@ -54,7 +54,7 @@ public class UsuarioController: ControllerBase
                 Expires = DateTimeOffset.UtcNow.AddDays(1)
             });
 
-            return this.Ok(new { nombre = login.Nombre, email = login.Email });
+            return this.Ok(new { id = login.Id, nombre = login.Nombre, email = login.Email });
         } 
         catch (UnauthorizedAccessException)
         {
