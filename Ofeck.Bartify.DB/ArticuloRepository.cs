@@ -100,7 +100,7 @@ public class ArticuloRepository(IDbConnection db): IArticuloRepository
                     ub.nombre       AS Nombre,
                     c.id            AS Id,
                     c.nombre        AS Nombre,
-                    u.id            AS Id,
+                    u.id            AS VendedorId,
                     u.nombre        AS Nombre,
                     u.apellido      AS Apellido
                 FROM articulos a
