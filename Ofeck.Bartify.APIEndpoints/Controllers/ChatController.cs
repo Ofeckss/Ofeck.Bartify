@@ -23,7 +23,7 @@ public class ChatController: ControllerBase
     {
         try
         {
-            var usuarioId = Guid.Parse(User.FindFirstValue(JwtRegisteredClaimNames.Sub)!);
+            var usuarioId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
 
             var nuevoChat = await this.chatService.Create(request, usuarioId);
 
@@ -39,7 +39,7 @@ public class ChatController: ControllerBase
     {
         try
         {
-            var usuarioId = Guid.Parse(User.FindFirstValue(JwtRegisteredClaimNames.Sub)!);
+            var usuarioId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
             
             var list = await this.chatService.GetByUser(usuarioId);
             
