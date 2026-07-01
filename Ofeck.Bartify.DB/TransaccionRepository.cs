@@ -143,7 +143,7 @@ public class TransaccionRepository(IDbConnection db) : ITransaccionRepository
                 from  detalles_transaccion dt
                 inner join transacciones t on t.id = dt.transaccion_id
                 inner join articulos a on a.id = dt.articulo_id
-                left join fotos f on f.articulo_id = a.id and orden = 0
+                left join fotos f on f.articulo = a.id and orden = 0
                 where t.chat_id = @ChatId
                 order by dt.ofrecido_vendedor
             """;
@@ -181,7 +181,7 @@ public class TransaccionRepository(IDbConnection db) : ITransaccionRepository
             FROM transacciones t
             INNER JOIN chats c      ON c.id = t.chat_id
             LEFT JOIN articulos a   ON a.id = c.articulo_principal
-            LEFT JOIN fotos f       ON f.articulo_id = a.id AND f.orden = 0
+            LEFT JOIN fotos f       ON f.articulo = a.id AND f.orden = 0
             LEFT JOIN usuarios u    ON u.id = CASE
                                         WHEN c.comprador_id = @UsuarioId THEN c.vendedor_id
                                         ELSE c.comprador_id
@@ -217,7 +217,7 @@ public class TransaccionRepository(IDbConnection db) : ITransaccionRepository
                 select d.articulo_id as Id, a.nombre as Nombre, f.url as Url
                 from detalles_transaccion d 
                 inner join articulos a on a.id = d.articulo_id
-                left join fotos f on f.articulo_id = a.id and f.orden = 0
+                left join fotos f on f.articulo = a.id and f.orden = 0
                 where d.transaccion_id = @TransaccionId and ofrecido_vendedor = @EsVendedor
             """;
         
