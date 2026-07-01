@@ -21,7 +21,7 @@ public class ChatRepository(IDbConnection db): IChatRepository
             """;
         await db.ExecuteAsync(sql, chat);
     }
-    
+
     public async Task<string> ChatExists(Guid Id, Guid Articulo)
     {
         var sql = """

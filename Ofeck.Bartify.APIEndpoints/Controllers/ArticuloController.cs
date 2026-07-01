@@ -1,10 +1,7 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.JsonWebTokens;
-using Ofeck.Bartify.Core.Models;
 using Ofeck.Bartify.Core.Articulos;
-using Ofeck.Bartify.Core.Articulos.DTOs;
 using Ofeck.Bartify.Core.Articulos.Requests;
 
 namespace Ofeck.Bartify.APIEndpoints.Controllers;
