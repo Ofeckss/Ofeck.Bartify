@@ -100,7 +100,7 @@ public class ArticuloRepository(IDbConnection db): IArticuloRepository
                     ub.nombre       AS Nombre,
                     c.id            AS Id,
                     c.nombre        AS Nombre,
-                    u.id            AS Id,
+                    u.id            AS VendedorId,
                     u.nombre        AS Nombre,
                     u.apellido      AS Apellido
                 FROM articulos a
@@ -122,7 +122,7 @@ public class ArticuloRepository(IDbConnection db): IArticuloRepository
                     };
                 },
                 param: new { Id = id.ToString() },
-                splitOn: "Id,Id,Id"
+                splitOn: "Id,Id,VendedorId"
             );
 
         return articulos.FirstOrDefault();
@@ -152,8 +152,8 @@ public class ArticuloRepository(IDbConnection db): IArticuloRepository
             LEFT JOIN usuarios u     ON a.vendedor_id   = u.id
             LEFT JOIN ubicaciones ub ON a.ubicacion_id  = ub.id
             LEFT JOIN fotos f        ON a.id = f.articulo AND f.orden = 0
+            WHERE u.id = @VendedorId
             ORDER BY a.created_at DESC
-                Where u.id = @VendedorId
             """;
 
         var articulos =
@@ -167,6 +167,7 @@ public class ArticuloRepository(IDbConnection db): IArticuloRepository
                         Vendedor = vendedor
                     };
                 },
+                param: new { VendedorId = userId.ToString() },
                 splitOn: "Id,Id,VendedorId"
             );
 

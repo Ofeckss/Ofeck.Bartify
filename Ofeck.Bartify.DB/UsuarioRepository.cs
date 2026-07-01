@@ -42,7 +42,7 @@ public class UsuarioRepository(IDbConnection db): IUsuarioRepository
     public async Task<UsuarioDTO> GetById(Guid id)
     {
         var sql = """
-                select nombre as Nombre, apellido as Apellido, fecha_nacimiento as FechaNacimiento, numero_cel as NumeroCel, rating as Rating, activo as Activo
+                select id as Id, nombre as Nombre, apellido as Apellido, fecha_nacimiento as FechaNacimiento, numero_cel as NumeroCel, rating as Rating, activo as Activo
                 from usuarios
                 where id = @Id
             """;

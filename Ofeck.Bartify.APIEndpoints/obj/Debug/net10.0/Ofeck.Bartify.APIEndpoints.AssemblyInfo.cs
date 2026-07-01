@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Ofeck.Bartify.APIEndpoints")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+952e24ddde112f723b8273bf91e23fd9adfb7f53")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+89d8bc4e3847c4ab98a97f0a35a8474467a5e12e")]
 [assembly: System.Reflection.AssemblyProductAttribute("Ofeck.Bartify.APIEndpoints")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Ofeck.Bartify.APIEndpoints")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
