@@ -1,15 +1,14 @@
-﻿using System.Data;
+using System.Data;
 using Dapper;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using MySqlConnector;
 using Ofeck.Bartify.Core.Models;
 using Ofeck.Bartify.Core.Pagos;
-
 namespace Ofeck.Bartify.DB;
-
-public class PagoRepository(IDbConnection db) : IPagoRepository
+public class PagoRepository(IDbConnection db, ILogger<PagoRepository> logger) : IPagoRepository
 {
-     public async Task InsertarAsync(Pago pago)
+    public async Task InsertarAsync(Pago pago)
     {
         var sql = @"
             INSERT INTO pagos (id, transaccion_id, stripe_session_id, monto, moneda, estado, fecha_creacion)
@@ -41,22 +40,6 @@ public class PagoRepository(IDbConnection db) : IPagoRepository
                 ex.Number, ex.SqlState, ex.Message, parametros);
             throw;
         }
-    }
-
-
-    public async Task<Pago> ObtenerPorSessionIdAsync(string stripeSessionId)
-    {
-        var sql = @"
-            SELECT id, transaccion_id, stripe_session_id, monto, moneda, estado, fecha_creacion, fecha_actualizacion
-            FROM pagos
-            WHERE stripe_session_id = @StripeSessionId";
-
-        var pago = await db.QueryFirstOrDefaultAsync<Pago>(sql, new { StripeSessionId = stripeSessionId });
-
-        if (pago.StripeSessionId is null)
-            throw new KeyNotFoundException($"Pago con session {stripeSessionId} no encontrado");
-
-        return pago;
     }
 
     public async Task ActualizarEstadoAsync(string stripeSessionId, string nuevoEstado)
