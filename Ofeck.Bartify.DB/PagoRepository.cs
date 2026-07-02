@@ -1,12 +1,13 @@
 using System.Data;
 using Dapper;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using MySqlConnector;
 using Ofeck.Bartify.Core.Models;
 using Ofeck.Bartify.Core.Pagos;
+
 namespace Ofeck.Bartify.DB;
-public class PagoRepository(IDbConnection db, ILogger<PagoRepository> logger) : IPagoRepository
+
+public class PagoRepository(IDbConnection db) : IPagoRepository
 {
     public async Task InsertarAsync(Pago pago)
     {
@@ -14,7 +15,7 @@ public class PagoRepository(IDbConnection db, ILogger<PagoRepository> logger) : 
             INSERT INTO pagos (id, transaccion_id, stripe_session_id, monto, moneda, estado, fecha_creacion)
             VALUES (@Id, @TransaccionId, @StripeSessionId, @Monto, @Moneda, @Estado, @FechaCreacion)";
 
-        var parametros = new
+        await db.ExecuteAsync(sql, new
         {
             Id = pago.Id.ToString(),
             TransaccionId = pago.TransaccionId.ToString(),
@@ -23,23 +24,22 @@ public class PagoRepository(IDbConnection db, ILogger<PagoRepository> logger) : 
             pago.Moneda,
             pago.Estado,
             pago.FechaCreacion
-        };
+        });
+    }
 
-        logger.LogInformation(
-            "Insertando Pago: Id={Id}, TransaccionId={TransaccionId}, StripeSessionId={StripeSessionId}, Monto={Monto}, Moneda={Moneda}, Estado={Estado}",
-            parametros.Id, parametros.TransaccionId, parametros.StripeSessionId, parametros.Monto, parametros.Moneda, parametros.Estado);
+    public async Task<Pago> ObtenerPorSessionIdAsync(string stripeSessionId)
+    {
+        var sql = @"
+            SELECT id, transaccion_id, stripe_session_id, monto, moneda, estado, fecha_creacion, fecha_actualizacion
+            FROM pagos
+            WHERE stripe_session_id = @StripeSessionId";
 
-        try
-        {
-            await db.ExecuteAsync(sql, parametros);
-        }
-        catch (MySqlException ex)
-        {
-            logger.LogError(ex,
-                "Error MySQL insertando Pago. Number={Number}, SqlState={SqlState}, Message={Message}. Parametros: {@Parametros}",
-                ex.Number, ex.SqlState, ex.Message, parametros);
-            throw;
-        }
+        var pago = await db.QueryFirstOrDefaultAsync<Pago>(sql, new { StripeSessionId = stripeSessionId });
+
+        if (pago.StripeSessionId is null)
+            throw new KeyNotFoundException($"Pago con session {stripeSessionId} no encontrado");
+
+        return pago;
     }
 
     public async Task ActualizarEstadoAsync(string stripeSessionId, string nuevoEstado)
