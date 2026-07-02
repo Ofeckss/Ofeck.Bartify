@@ -66,7 +66,7 @@ public class TransaccionController : ControllerBase
 
     [Authorize]
     [HttpPost("cancelar")]
-    public async Task<ActionResult> Cancelar([FromBody] Guid chatId)
+    public async Task<ActionResult> Cancelar([FromQuery] Guid chatId)
     {
         try
         {

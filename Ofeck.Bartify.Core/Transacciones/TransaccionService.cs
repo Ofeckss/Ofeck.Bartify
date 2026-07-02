@@ -146,6 +146,4 @@ public class TransaccionService
     {
         return await this.repository.GetDetalle(chatId);
     }
-    
-    
 }

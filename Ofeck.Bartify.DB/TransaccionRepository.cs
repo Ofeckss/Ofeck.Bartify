@@ -255,7 +255,7 @@ public class TransaccionRepository(IDbConnection db) : ITransaccionRepository
     {
         var sql = """
                 update articulos a inner join detalles_transaccion dt on dt.articulo_id = a.id inner join transacciones t on t.id = dt.transaccion_id
-            set a.disponible = 0, t.terminado = 0
+            set a.disponible = 0, t.terminado = 1
             where t.chat_id = @ChatId
             """;
         
