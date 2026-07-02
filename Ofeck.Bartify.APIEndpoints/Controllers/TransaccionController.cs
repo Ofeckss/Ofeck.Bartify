@@ -80,8 +80,8 @@ public class TransaccionController : ControllerBase
         }
     }
 
-    [HttpGet("status")]
-    public async Task<ActionResult> GetStatus([FromBody] Guid chatId)
+    [HttpGet("status/{chatId:guid}")]
+    public async Task<ActionResult> GetStatus(Guid chatId)
     {
         try
         {
