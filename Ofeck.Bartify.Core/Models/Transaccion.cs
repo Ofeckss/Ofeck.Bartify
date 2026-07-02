@@ -9,5 +9,6 @@ public readonly record struct Transaccion
     bool ConfirmadoComprador,
     bool ConfirmadoVendedor,
     DateTime CreatedAt,
-    DateTime UpdatedAt
+    DateTime UpdatedAt,
+    bool Terminado
 );

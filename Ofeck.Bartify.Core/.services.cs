@@ -5,6 +5,7 @@ using Ofeck.Bartify.Core.Chats;
 using Ofeck.Bartify.Core.Estados;
 using Ofeck.Bartify.Core.Fotos;
 using Ofeck.Bartify.Core.Integrations.Sendbird;
+using Ofeck.Bartify.Core.Pagos;
 using Ofeck.Bartify.Core.Transacciones;
 using Ofeck.Bartify.Core.Ubicaciones;
 using Ofeck.Bartify.Core.Usuarios;
@@ -24,6 +25,7 @@ public static class ServiceContainer
         services.AddScoped<CloudinaryService>(); 
         services.AddScoped<ChatService>();
         services.AddScoped<TransaccionService>();
+        services.AddScoped<PagoService>();
         
         return services;
     }

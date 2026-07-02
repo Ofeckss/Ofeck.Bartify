@@ -22,5 +22,8 @@ public interface ITransaccionRepository
     public Task<List<GetAllTransaccionesResponse>> GetAll (Guid usuarioId);
     public Task<GetMiniTransaccionResponse> GetSemiById (Guid id);
     public Task<List<MiniArticuloDTO>> GetListById(Guid transaccionId, bool esVendedor);
-    public Task<bool> GetStatus(Guid chatId);
+    public Task<GetStatusResponse> GetStatus(Guid chatId);
+    public Task<bool> ExistByChatId(Guid chatId);
+    public Task Terminar(Guid chatId);
+
 }

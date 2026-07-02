@@ -49,7 +49,7 @@ public class TransaccionRepository(IDbConnection db) : ITransaccionRepository
                 select id from transacciones where chat_id = @ChatId
             """;
         
-        return await db.QuerySingleAsync<Guid>(sql,new {ChatId = chatId.ToString()});
+        return await db.QuerySingleOrDefaultAsync<Guid>(sql,new {ChatId = chatId.ToString()});
     }
     public async Task<bool> EsVendedor(Guid chatId, Guid usuarioId)
     {
@@ -225,16 +225,52 @@ public class TransaccionRepository(IDbConnection db) : ITransaccionRepository
 
         return result.ToList();
     }
-    public async Task<bool> GetStatus(Guid chatId)
+    public async Task<GetStatusResponse> GetStatus(Guid chatId)
     {
         var sql = """
-                select confirmado_vendedor as ConfirmadoV, confirmado_comprador as ConfirmadoC
+                select confirmado_vendedor as ConfirmadoV, confirmado_comprador as ConfirmadoC, terminado as Terminado
                 from transacciones
                 where  chat_id = @ChatId
             """;
         
         var checker = await db.QuerySingleOrDefaultAsync<Confirmador>(sql, new { ChatId = chatId.ToString() });
 
-        return checker.ConfirmadoC && checker.ConfirmadoV;
+        var result = new GetStatusResponse(
+            checker.ConfirmadoC && checker.ConfirmadoV,
+            checker.Terminado
+        );
+
+        return result;
+    }
+
+    public async Task<bool> ExistByChatId(Guid chatId)
+    {
+        var sql = """
+                select exists(select 1 from transacciones where chat_id = @ChatId)
+            """;
+        
+        return await db.ExecuteScalarAsync<bool>(sql, new {ChatId = chatId.ToString()});
+    }
+    public async Task Terminar(Guid chatId)
+    {
+        var sql = """
+                update articulos a inner join detalles_transaccion dt on dt.articulo_id = a.id inner join transacciones t on t.id = dt.transaccion_id
+            set a.disponible = 0 t.terminado = 0
+            where t.chat_id = @ChatId
+            """;
+        
+        await db.ExecuteAsync(sql, new { ChatId = chatId.ToString() });
+    }
+
+    public async Task<Guid> GetVendedorId(Guid chatId)
+    {
+        const string sql = @"
+        SELECT vendedor_id
+        FROM chats
+        WHERE id = @ChatId";
+
+        var vendedorIdStr = await db.QuerySingleAsync<string>(sql, new { ChatId = chatId.ToString() });
+
+        return Guid.Parse(vendedorIdStr);
     }
 }

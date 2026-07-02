@@ -9,6 +9,8 @@ using Ofeck.Bartify.APIEndpoints.Auth;
 using Ofeck.Bartify.Core.Fotos.Requests;
 using Ofeck.Bartify.Core.Integrations.Sendbird;
 using Ofeck.Bartify.Core.Sendbird;
+using Stripe;
+using TokenService = Ofeck.Bartify.APIEndpoints.Auth.TokenService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +25,8 @@ builder.Services.AddOpenApi();
 builder.Services.AddRepositories(
     builder.Configuration.GetConnectionString("mysql")! 
 );
+
+StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 
 JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 

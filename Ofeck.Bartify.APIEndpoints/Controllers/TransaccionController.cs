@@ -23,7 +23,10 @@ public class TransaccionController : ControllerBase
         {
             await this.transaccionService.CreateTrans(request);
             return this.Created();
-        } catch (Exception e)
+        } catch (ArgumentException ae)
+        {
+            return this.UnprocessableEntity(ae.Message);
+        }catch (Exception e)
         {
             return this.Problem(e.Message, title: e.StackTrace);
         } 
