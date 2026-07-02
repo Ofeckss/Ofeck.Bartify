@@ -18,9 +18,9 @@ public class PagosController : ControllerBase
 
     [Authorize]
     [HttpPost("checkout")]
-    public async Task<IActionResult> CrearCheckout([FromBody] CrearCheckoutRequest request)
+    public async Task<IActionResult> CrearCheckout([FromBody] CrearCheckoutRequest request, decimal monto)
     {
-        var response = await _pagoService.CrearCheckoutSessionAsync(request.ChatId);
+        var response = await _pagoService.CrearCheckoutSessionAsync(request.ChatId, monto);
         return Ok(response);
     }
     

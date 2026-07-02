@@ -7,4 +7,5 @@ public interface IPagoRepository
     Task InsertarAsync(Pago pago);
     Task<Pago> ObtenerPorSessionIdAsync(string stripeSessionId);
     Task ActualizarEstadoAsync(string stripeSessionId, string nuevoEstado);
+    Task ActualizarPrecio(Guid id, decimal monto);
 }

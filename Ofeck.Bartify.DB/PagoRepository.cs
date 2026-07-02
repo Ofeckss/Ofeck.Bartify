@@ -65,4 +65,14 @@ public class PagoRepository : IPagoRepository
             StripeSessionId = stripeSessionId
         });
     }
+
+    public async Task ActualizarPrecio(Guid id, decimal monto)
+    {
+        using var connection = new MySqlConnection(_connectionString);
+        const string sql = """
+                update transacciones set precio_final = @Monto where id = @Id
+            """;
+        
+        await connection.ExecuteAsync(sql, new { Id = id, Monto = monto });
+    }
 }

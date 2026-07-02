@@ -23,18 +23,11 @@ public class PagoService
         _configuration = configuration;
     }
 
-    public async Task<CrearCheckoutResponse> CrearCheckoutSessionAsync(Guid chatId)
+    public async Task<CrearCheckoutResponse> CrearCheckoutSessionAsync(Guid chatId, decimal monto)
     {
         var transaccionId = await _transaccionRepository.GetTransId(chatId);
-        var transaccion = await _transaccionRepository.GetSemiById(transaccionId);
-
-        if (transaccion.EsTrueque)
-            throw new InvalidOperationException("Esta transacción es un trueque, no requiere pago.");
-
-        if (transaccion.PrecioFinal <= 0)
-            throw new InvalidOperationException("La transacción no tiene un precio válido para procesar el pago.");
-
-        var monto = (decimal)transaccion.PrecioFinal;
+        
+        await this._pagoRepository.ActualizarPrecio(transaccionId, monto);
 
         var frontendUrl = _configuration["Frontend:BaseUrl"];
 
@@ -48,7 +41,7 @@ public class PagoService
                     PriceData = new SessionLineItemPriceDataOptions
                     {
                         Currency = "mxn",
-                        UnitAmount = (long)(monto * 100), // Stripe usa centavos
+                        UnitAmount = (long)(monto * 100),
                         ProductData = new SessionLineItemPriceDataProductDataOptions
                         {
                             Name = $"Transacción Bartify #{transaccionId}"
@@ -93,7 +86,6 @@ public class PagoService
     public async Task ProcesarWebhookAsync(string json, string stripeSignature)
     {
         var webhookSecret = _configuration["Stripe:WebhookSecret"];
-
         var stripeEvent = EventUtility.ConstructEvent(json, stripeSignature, webhookSecret);
 
         if (stripeEvent.Type == EventTypes.CheckoutSessionCompleted)
@@ -102,7 +94,16 @@ public class PagoService
             if (session is not null)
             {
                 await _pagoRepository.ActualizarEstadoAsync(session.Id, "pagado");
-                // Pendiente: aquí conectas ConfirmarComprador si decides automatizarlo
+
+                if (session.Metadata.TryGetValue("chat_id", out var chatIdStr)
+                    && Guid.TryParse(chatIdStr, out var chatId))
+                {
+                    double? monto = session.AmountTotal.HasValue
+                        ? session.AmountTotal.Value / 100.0
+                        : null;
+
+                    await this.ConfirmarCompradorAutomatico(chatId, monto);
+                }
             }
         }
         else if (stripeEvent.Type == EventTypes.CheckoutSessionExpired)
@@ -113,5 +114,10 @@ public class PagoService
                 await _pagoRepository.ActualizarEstadoAsync(session.Id, "expirado");
             }
         }
+    }
+    
+    public async Task ConfirmarCompradorAutomatico(Guid chatId, double? precio)
+    {
+        await this._transaccionRepository.ConfirmarComprador(chatId, precio);
     }
 }

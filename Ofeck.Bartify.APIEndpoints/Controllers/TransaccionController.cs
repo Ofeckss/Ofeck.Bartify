@@ -66,7 +66,7 @@ public class TransaccionController : ControllerBase
 
     [Authorize]
     [HttpPost("cancelar")]
-    public async Task<ActionResult> Cancelar([FromBody] Guid chatId)
+    public async Task<ActionResult> Cancelar([FromQuery] Guid chatId)
     {
         try
         {
@@ -80,8 +80,8 @@ public class TransaccionController : ControllerBase
         }
     }
 
-    [HttpGet("status")]
-    public async Task<ActionResult> GetStatus([FromBody] Guid chatId)
+    [HttpGet("status/{chatId:guid}")]
+    public async Task<ActionResult> GetStatus(Guid chatId)
     {
         try
         {
