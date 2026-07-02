@@ -6,6 +6,7 @@ using Ofeck.Bartify.Core.Categorias;
 using Ofeck.Bartify.Core.Chats;
 using Ofeck.Bartify.Core.Estados;
 using Ofeck.Bartify.Core.Fotos;
+using Ofeck.Bartify.Core.Pagos;
 using Ofeck.Bartify.Core.Transacciones;
 using Ofeck.Bartify.Core.Ubicaciones;
 using Ofeck.Bartify.Core.Usuarios;
@@ -25,6 +26,7 @@ public static class ServiceContainer
         services.AddScoped<IFotoRepository, FotoRepository>();
         services.AddScoped<IChatRepository, ChatRepository>();
         services.AddScoped<ITransaccionRepository, TransaccionRepository>();
+        services.AddScoped<IPagoRepository, PagoRepository>();
 
         return services;
     }

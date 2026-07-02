@@ -3,5 +3,6 @@
 public readonly record struct Confirmador
 (
     bool ConfirmadoV,
-    bool ConfirmadoC
+    bool ConfirmadoC,
+    bool Terminado
 );

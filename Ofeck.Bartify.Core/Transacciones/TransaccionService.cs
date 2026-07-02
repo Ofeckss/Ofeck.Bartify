@@ -15,6 +15,11 @@ public class TransaccionService
 
     public async Task CreateTrans(CreateTransaccionRequest request)
     {
+        var transExists = await this.repository.ExistByChatId(request.ChatId);
+        
+        if(transExists)
+            throw new ArgumentException($"Transaccion con ChatId {request.ChatId} ya existe");
+        
         var trans = new Transaccion(
             Guid.CreateVersion7(),
             request.ChatId,
@@ -23,7 +28,8 @@ public class TransaccionService
             false,
             false,
             DateTime.Now,
-            DateTime.Now
+            DateTime.Now,
+            false
         );
         
         await this.repository.CreateTransaccion(trans);
@@ -101,7 +107,11 @@ public class TransaccionService
     public async Task<bool> GetStatus(Guid chatId)
     {
         var status = await this.repository.GetStatus(chatId);
-        return status;
+        
+        if(!status.Terminado) 
+            await this.repository.Terminar(chatId);
+        
+        return status.Confirmado;
     }
 
     public async Task<List<GetAllTransaccionesResponse>> GetAllByUser(Guid userId)
@@ -136,4 +146,6 @@ public class TransaccionService
     {
         return await this.repository.GetDetalle(chatId);
     }
+    
+    
 }

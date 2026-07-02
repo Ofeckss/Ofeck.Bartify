@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Ofeck.Bartify.Core")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+89d8bc4e3847c4ab98a97f0a35a8474467a5e12e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+040dcc9115b1debf01bb311a092fbefb8bdcf910")]
 [assembly: System.Reflection.AssemblyProductAttribute("Ofeck.Bartify.Core")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Ofeck.Bartify.Core")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
