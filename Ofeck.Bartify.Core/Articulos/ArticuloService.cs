@@ -48,4 +48,9 @@ public class ArticuloService
     {
         return await this.repository.GetByUserId(id);
     }
+
+    public async Task<List<GetArticuloDto>> GetFiltered(GetFilteredRequest request)
+    {
+        return await this.repository.GetFiltered(request);
+    }
 }

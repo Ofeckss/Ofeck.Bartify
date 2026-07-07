@@ -72,7 +72,7 @@ public class TransaccionService
 
         if (esVendedor)
         {
-            await this.repository.ConfirmarVendedor(request.ChatId);
+            await this.repository.ConfirmarVendedor(request.ChatId, request.Precio);
             
             for (int i = 0; i < request.Articulos.Count; i++)
             {
@@ -80,7 +80,7 @@ public class TransaccionService
             }
         } else
         {
-            await this.repository.ConfirmarComprador(request.ChatId, request.Precio);
+            await this.repository.ConfirmarComprador(request.ChatId);
             
             for (int i = 0; i < request.Articulos.Count; i++)
             {

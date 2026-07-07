@@ -18,11 +18,17 @@ public class PagosController : ControllerBase
 
     [Authorize]
     [HttpPost("checkout")]
-    public async Task<IActionResult> CrearCheckout([FromBody] CrearCheckoutRequest request, decimal monto)
+    public async Task<IActionResult> CrearCheckout([FromBody] CrearCheckoutRequest request)
     {
-        var response = await _pagoService.CrearCheckoutSessionAsync(request.ChatId, monto);
-        return Ok(response);
-    }
+        try
+        {
+            var response = await _pagoService.CrearCheckoutSessionAsync(request.ChatId, request.monto);
+            return Ok(response);
+        } catch (Exception e)
+        {
+            return this.Problem(e.StackTrace, title: "Ha ocurrido un error inesperado.");
+        }
+    } 
     
     [HttpPost("webhook")]
     public async Task<IActionResult> Webhook()

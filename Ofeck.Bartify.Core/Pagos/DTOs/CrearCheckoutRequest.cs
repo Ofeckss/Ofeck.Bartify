@@ -2,5 +2,6 @@
 
 public readonly record struct CrearCheckoutRequest
 (
-    Guid ChatId
+    Guid ChatId,
+    decimal monto
 );

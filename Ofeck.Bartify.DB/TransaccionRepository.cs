@@ -13,7 +13,7 @@ public class TransaccionRepository(IDbConnection db) : ITransaccionRepository
     public async Task CreateTransaccion(Transaccion transaccion)
     {
         var sql = """
-                insert into transacciones(id,chat_id,trueque,precio_final,created_at,updated_at,confirmado_comprador,confirmado_vendedor)
+                insert into transacciones(id,chat_id,trueque,precio_final,created_at,updated_at,confirmado_comprador,confirmado_vendedor, terminado)
                 values(
                     @Id,
                     @ChatId,
@@ -22,7 +22,8 @@ public class TransaccionRepository(IDbConnection db) : ITransaccionRepository
                     @CreatedAt,
                     @UpdatedAt,
                     @ConfirmadoComprador,
-                    @ConfirmadoVendedor
+                    @ConfirmadoVendedor,
+                    @Terminado
                 )
             """;
         
@@ -59,13 +60,13 @@ public class TransaccionRepository(IDbConnection db) : ITransaccionRepository
         
         return await db.ExecuteScalarAsync<bool>(sql, new {ChatId = chatId.ToString(), VendedorId = usuarioId.ToString()});
     }
-    public async Task ConfirmarComprador(Guid chatId, double? precio)
+    public async Task ConfirmarComprador(Guid chatId)
     {
         var sql = """
-                update transacciones set confirmado_comprador = 1, precio_final = COALESCE(@Precio, precio_final), updated_at = NOW() where chat_id = @ChatId
+                update transacciones set confirmado_comprador = 1, updated_at = NOW() where chat_id = @ChatId
             """;
         
-        await db.ExecuteAsync(sql, new { ChatId = chatId.ToString(), Precio = precio });
+        await db.ExecuteAsync(sql, new { ChatId = chatId.ToString() });
     }
 
     public async Task ConfirmarDetComprador(Guid chatId, Guid articuloId)
@@ -79,13 +80,13 @@ public class TransaccionRepository(IDbConnection db) : ITransaccionRepository
         await db.ExecuteAsync(sql, new { ChatId = chatId.ToString(), ArticuloId = articuloId.ToString() });
     }
 
-    public async Task ConfirmarVendedor(Guid chatId)
+    public async Task ConfirmarVendedor(Guid chatId, double? precio)
     {
         var sql = """
-                update transacciones set confirmado_vendedor = 1, updated_at = NOW() where chat_id = @ChatId
+                update transacciones set confirmado_vendedor = 1, precio_final = COALESCE(@Precio, precio_final), updated_at = NOW() where chat_id = @ChatId
             """;
         
-        await db.ExecuteAsync(sql, new { ChatId = chatId.ToString() });
+        await db.ExecuteAsync(sql, new { ChatId = chatId.ToString(), Precio = precio });
     }
 
     public async Task ConfirmarDetVendedor(Guid chatId, Guid articuloId)

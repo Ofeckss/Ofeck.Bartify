@@ -51,8 +51,8 @@ public class PagoService
                 }
             },
             Mode = "payment",
-            SuccessUrl = $"{frontendUrl}/chats/{chatId}?pago=exitoso",
-            CancelUrl = $"{frontendUrl}/chats/{chatId}?pago=cancelado",
+            SuccessUrl = $"{frontendUrl}/chat/{chatId}?pago=exitoso",
+            CancelUrl = $"{frontendUrl}/chat/{chatId}?pago=cancelado",
             Metadata = new Dictionary<string, string>
             {
                 { "transaccion_id", transaccionId.ToString() },
@@ -98,11 +98,7 @@ public class PagoService
                 if (session.Metadata.TryGetValue("chat_id", out var chatIdStr)
                     && Guid.TryParse(chatIdStr, out var chatId))
                 {
-                    double? monto = session.AmountTotal.HasValue
-                        ? session.AmountTotal.Value / 100.0
-                        : null;
-
-                    await this.ConfirmarCompradorAutomatico(chatId, monto);
+                    await this.ConfirmarCompradorAutomatico(chatId);
                 }
             }
         }
@@ -116,8 +112,8 @@ public class PagoService
         }
     }
     
-    public async Task ConfirmarCompradorAutomatico(Guid chatId, double? precio)
+    public async Task ConfirmarCompradorAutomatico(Guid chatId)
     {
-        await this._transaccionRepository.ConfirmarComprador(chatId, precio);
+        await this._transaccionRepository.ConfirmarComprador(chatId);
     }
 }

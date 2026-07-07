@@ -4,5 +4,6 @@ public readonly record struct CreateChatRequest
 (
     Guid Articulo,
     Guid Vendedor,
-    string Nombre
+    string Nombre,
+    bool EsTrueque
 );
