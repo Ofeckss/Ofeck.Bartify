@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Ofeck.Bartify.Core.Articulos;
+using Ofeck.Bartify.Core.Articulos.DTOs;
 using Ofeck.Bartify.Core.Articulos.Requests;
 
 namespace Ofeck.Bartify.APIEndpoints.Controllers;
@@ -69,7 +70,21 @@ public class ArticuloController: ControllerBase
             var articulo = await this.articuloService.GetById(id);
             
             return this.Ok(articulo);
-        }catch (Exception e)
+        } catch (Exception e)
+        {
+            return this.Problem(e.Message, title: e.StackTrace);
+        }
+    }
+    
+    [HttpPost("search")]
+    public async Task<IActionResult> GetFiltered(GetFilteredRequest request)
+    {
+        try
+        {
+            var result = await this.articuloService.GetFiltered(request);
+            
+            return this.Ok(result);
+        } catch (Exception e)
         {
             return this.Problem(e.Message, title: e.StackTrace);
         }

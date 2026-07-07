@@ -173,4 +173,56 @@ public class ArticuloRepository(IDbConnection db): IArticuloRepository
 
         return articulos.ToList();
     }
+
+    public async Task<List<GetArticuloDto>> GetFiltered(GetFilteredRequest request)
+    {
+         var sql = """
+            SELECT 
+                a.id            AS Id,
+                a.nombre        AS Nombre,
+                a.descripcion   AS Descripcion,
+                a.precio        AS Precio,
+                a.trueque       AS EsTrueque,
+                a.disponible    AS Disponible,
+                a.created_at    AS CreatedAt,
+                f.url           AS Url,
+                ub.id           AS Id,
+                ub.nombre       AS Nombre,
+                c.id            AS Id,
+                c.nombre        AS Nombre,
+                u.id            AS VendedorId,
+                u.nombre        AS Nombre,
+                u.apellido      AS Apellido
+            FROM articulos a
+            LEFT JOIN categorias c   ON a.categoria_id  = c.id
+            LEFT JOIN usuarios u     ON a.vendedor_id   = u.id
+            LEFT JOIN ubicaciones ub ON a.ubicacion_id  = ub.id
+            LEFT JOIN fotos f        ON a.id = f.articulo AND f.orden = 0
+            WHERE (@Nombre IS NULL OR a.nombre LIKE CONCAT('%', @Nombre, '%'))
+              AND (@PrecioMin IS NULL OR a.precio >= @PrecioMin)
+              AND (@PrecioMax IS NULL OR a.precio <= @PrecioMax)
+              AND (@CategoriaId IS NULL OR a.categoria_id = @CategoriaId)
+              AND (@EsTrueque IS NULL OR a.trueque = @EsTrueque)
+              AND (@UbicacionId IS NULL OR a.ubicacion_id = @UbicacionId)
+              AND (@EstadoId IS NULL OR a.estado_id = @EstadoId)
+            ORDER BY a.created_at DESC
+        """;
+
+    var articulos =
+        await db.QueryAsync<GetArticuloDto, UbicacionArticulo, CategoriaArticulo, Vendedor, GetArticuloDto>(
+            sql,
+            (articulo, ubicacion, categoria, vendedor) =>
+            {
+                return articulo with {
+                    Ubicacion = ubicacion,
+                    Categoria = categoria,
+                    Vendedor = vendedor
+                };
+            },
+            request,
+            splitOn: "Id,Id,VendedorId"
+        );
+
+    return articulos.ToList();
+    }
 }

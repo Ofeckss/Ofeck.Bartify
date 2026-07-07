@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Ofeck.Bartify.APIEndpoints.Auth;
-using Ofeck.Bartify.Core.Models;
 using Ofeck.Bartify.Core.Usuarios;
 using Ofeck.Bartify.Core.Usuarios.Requests;
-using Ofeck.Bartify.APIEndpoints.Auth;
 
 namespace Ofeck.Bartify.APIEndpoints.Controllers;
 
@@ -81,6 +80,27 @@ public class UsuarioController: ControllerBase
         } catch (KeyNotFoundException knfe)
         {
             return this.NotFound(knfe.Message);
+        } catch (Exception e)
+        {
+            return this.Problem(e.StackTrace, title: "Ha ocurrido un error inesperado.");
+        }
+    }
+
+    [Authorize]
+    [HttpPost("logout")]
+    public async Task<IActionResult> LogOut()
+    {
+        try
+        {
+            Response.Cookies.Delete("jwt", new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.None
+            });
+            
+            return this.Ok();
+            
         } catch (Exception e)
         {
             return this.Problem(e.StackTrace, title: "Ha ocurrido un error inesperado.");

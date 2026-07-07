@@ -10,9 +10,9 @@ public interface ITransaccionRepository
     public Task CreateDetalle (DetalleTransaccion detalleTransaccion);
     public Task<Guid> GetTransId(Guid chatId);
     public Task<bool> EsVendedor (Guid chatId, Guid usuarioId);
-    public Task ConfirmarComprador (Guid chatId, double? precio);
+    public Task ConfirmarComprador (Guid chatId);
     public Task ConfirmarDetComprador(Guid chatId, Guid articuloId);
-    public Task ConfirmarVendedor (Guid chatId);
+    public Task ConfirmarVendedor (Guid chatId, double? precio);
     public Task ConfirmarDetVendedor(Guid chatId, Guid articuloId);
     public Task RevertirComprador (Guid chatId);
     public Task RevertirDetComprador(Guid chatId);

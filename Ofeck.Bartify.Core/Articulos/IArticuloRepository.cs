@@ -11,4 +11,5 @@ public interface IArticuloRepository
     public Task<List<GetArticuloDto>> GetAll();
     public Task<GetArticuloByIdDto> GetById(Guid id);
     public Task<List<GetArticuloDto>> GetByUserId(Guid userId);
+    public Task<List<GetArticuloDto>> GetFiltered(GetFilteredRequest request);
 }
