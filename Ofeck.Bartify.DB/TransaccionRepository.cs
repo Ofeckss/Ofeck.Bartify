@@ -13,7 +13,7 @@ public class TransaccionRepository(IDbConnection db) : ITransaccionRepository
     public async Task CreateTransaccion(Transaccion transaccion)
     {
         var sql = """
-                insert into transacciones(id,chat_id,trueque,precio_final,created_at,updated_at,confirmado_comprador,confirmado_vendedor, terminado)
+                insert into transacciones(id,chat_id,trueque,precio_final,created_at,updated_at,confirmado_comprador,confirmado_vendedor,terminado)
                 values(
                     @Id,
                     @ChatId,
