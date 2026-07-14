@@ -1,4 +1,4 @@
-﻿using System.Text.RegularExpressions;
+using System.Text.RegularExpressions;
 using Ofeck.Bartify.Core.Models;
 using Ofeck.Bartify.Core.Sendbird;
 using Ofeck.Bartify.Core.Usuarios.Requests;
@@ -53,7 +53,7 @@ public class UsuarioService
         return true;
     }
 
-    public async Task<Token> Login(LoginUserRequest request)
+    public async Task<TokenRol> Login(LoginUserRequest request)
     {
         var account = await this.repository.GetByEmail(request.Email);
 
@@ -66,10 +66,11 @@ public class UsuarioService
         if(!validPass)
             throw new UnauthorizedAccessException("Credenciales inválidas.");
 
-        return new Token {
+        return new TokenRol {
             Id = account.Id,
             Email = account.Email,
-            Nombre = account.Nombre
+            Nombre = account.Nombre,
+            Rol = account.Rol
         };
     }
 
