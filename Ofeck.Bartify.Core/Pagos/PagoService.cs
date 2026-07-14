@@ -51,8 +51,8 @@ public class PagoService
                 }
             },
             Mode = "payment",
-            SuccessUrl = $"{frontendUrl}/chat/{chatId}?pago=exitoso",
-            CancelUrl = $"{frontendUrl}/chat/{chatId}?pago=cancelado",
+            SuccessUrl = $"{frontendUrl}/chat?chatId={chatId}&pago=exitoso",
+            CancelUrl = $"{frontendUrl}/chat?chatId={chatId}&pago=cancelado",
             Metadata = new Dictionary<string, string>
             {
                 { "transaccion_id", transaccionId.ToString() },
