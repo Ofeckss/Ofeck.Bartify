@@ -24,8 +24,8 @@ public class AuthController: ControllerBase
 
         var info = new Token(
             id,
-            email,
-            nombre
+            nombre,
+            email
         );
         
         return this.Ok(info);

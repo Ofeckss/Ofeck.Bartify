@@ -44,7 +44,8 @@ public class UsuarioService
             null,
             hashedPass,
             true,
-            DateTime.Now
+            DateTime.Now,
+            request.Rol
         );
         
         await this.repository.Create(usuario);
@@ -79,5 +80,29 @@ public class UsuarioService
         if (usuario == null) throw new KeyNotFoundException("Cuenta no existe.");
 
         return usuario;
+    }
+
+    public async Task Update(UpdateUserRequest request, Guid Id)
+    {
+        var found = await this.repository.Update(request, Id);
+        
+        if(!found) 
+            throw new KeyNotFoundException("Cuenta no existe.");
+    }
+
+    public async Task Delete(Guid id)
+    {
+        var found = await this.repository.Delete(id);
+        
+        if(!found)
+            throw new KeyNotFoundException("Cuenta no existe.");
+    }
+
+    public async Task Rate(Guid id, double rating)
+    {
+        var found = await this.repository.Rate(id, rating);
+        
+        if(!found)
+            throw new KeyNotFoundException("Cuenta no existe.");
     }
 }

@@ -11,5 +11,6 @@ public readonly record struct Usuario
     double? Rating,
     string Password,
     bool Activo,
-    DateTime FechaCreacion
+    DateTime FechaCreacion,
+    int RolId
 );
