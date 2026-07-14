@@ -6,5 +6,6 @@ public readonly record struct LoginDTO
     string Nombre,
     string Email,
     string Password,
+    int Rol,
     bool Activo
 );
