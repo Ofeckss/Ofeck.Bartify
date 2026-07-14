@@ -106,4 +106,46 @@ public class UsuarioController: ControllerBase
             return this.Problem(e.StackTrace, title: "Ha ocurrido un error inesperado.");
         }
     }
+
+    [HttpPatch("{id:guid}/update")]
+    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateUserRequest request)
+    {
+        try
+        {
+            await this.usuarioService.Update(request, id);
+
+            return this.Ok();
+        } catch (Exception e)
+        {
+            return this.Problem(e.Message, title: e.StackTrace);
+        }
+    }
+
+    [HttpDelete("{id:guid}/delete")]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        try
+        {
+            await this.usuarioService.Delete(id);
+
+            return this.Ok();
+        } catch (Exception e)
+        {
+            return this.Problem(e.Message, title: e.StackTrace);
+        }
+    }
+
+    [HttpPost("{id:guid}/rate")]
+    public async Task<IActionResult> Rate(Guid id, double rating)
+    {
+        try
+        {
+            await this.usuarioService.Rate(id, rating);
+
+            return this.Ok();
+        } catch (Exception e)
+        {
+            return this.Problem(e.Message, title: e.StackTrace);
+        }
+    }
 }

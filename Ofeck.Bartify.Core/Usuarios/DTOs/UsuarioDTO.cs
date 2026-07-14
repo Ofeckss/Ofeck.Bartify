@@ -8,5 +8,6 @@ public readonly record struct UsuarioDTO
     DateOnly? FechaNacimiento,
     string? NumeroCel,
     double? Rating,
-    bool Activo
+    bool Activo,
+    int Rol
 );

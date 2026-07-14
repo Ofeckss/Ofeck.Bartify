@@ -89,4 +89,32 @@ public class ArticuloController: ControllerBase
             return this.Problem(e.Message, title: e.StackTrace);
         }
     }
+
+    [HttpPatch("{id:guid}/update")]
+    public async Task<IActionResult> Patch(Guid id, [FromBody] UpdateArticuloRequest request)
+    {
+        try
+        {
+            await this.articuloService.Update(request, id);
+
+            return this.Ok();
+        } catch (Exception e)
+        {
+            return this.Problem(e.Message, title: e.StackTrace);
+        }
+    }
+
+    [HttpDelete("{id:guid}/delete")]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        try
+        {
+            await this.articuloService.Delete(id);
+
+            return this.Ok();
+        } catch (Exception e)
+        {
+            return this.Problem(e.Message, title: e.StackTrace);
+        }
+    }
 }

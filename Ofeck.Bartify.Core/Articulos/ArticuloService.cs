@@ -53,4 +53,20 @@ public class ArticuloService
     {
         return await this.repository.GetFiltered(request);
     }
+
+    public async Task Delete(Guid id)
+    {
+        var found = await this.repository.Delete(id);
+
+        if (!found) 
+            throw new KeyNotFoundException("Articulo no encontrado");
+    }
+
+    public async Task Update(UpdateArticuloRequest request, Guid Id)
+    {
+        var found = await this.repository.Update(request, Id);
+
+        if (!found)
+            throw new KeyNotFoundException("Articulo no encontrado");
+    }
 }

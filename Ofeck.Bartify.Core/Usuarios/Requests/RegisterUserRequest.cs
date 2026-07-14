@@ -4,6 +4,7 @@ public readonly record struct RegisterUserRequest
 (
     string Nombre,
     string Email,
-    string Password
+    string Password,
+    int Rol
     // DateOnly FechaNacimiento
 );

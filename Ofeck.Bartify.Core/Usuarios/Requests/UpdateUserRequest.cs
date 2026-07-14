@@ -5,5 +5,6 @@ public readonly record struct UpdateUserRequest
     string? Nombre,
     string? Apellido,
     DateOnly? FechaNacimiento,
-    string? NumeroCel
+    string? NumeroCel,
+    string? Password
 );

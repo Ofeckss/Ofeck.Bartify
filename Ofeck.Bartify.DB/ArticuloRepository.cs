@@ -3,6 +3,7 @@ using Dapper;
 using Ofeck.Bartify.Core.Models;
 using Ofeck.Bartify.Core.Articulos;
 using Ofeck.Bartify.Core.Articulos.DTOs;
+using Ofeck.Bartify.Core.Articulos.Requests;
 
 namespace Ofeck.Bartify.DB;
 
@@ -30,17 +31,45 @@ public class ArticuloRepository(IDbConnection db): IArticuloRepository
 
         await db.ExecuteAsync(sql, articulo);
     }
-
-    public async Task<bool> Update(Articulo articulo)
+    public async Task<bool> Update(UpdateArticuloRequest request, Guid id)
     {
-        throw new NotImplementedException();
+        var sql = """
+                update articulos
+                set
+                    nombre = coalesce(@Nombre, nombre),
+                    descripcion = coalesce(@Descripcion, descripcion),
+                    precio = coalesce(@Precio, precio),
+                    trueque = coalesce(@EsTrueque, trueque),
+                    categoria_id = coalesce(@CategoriaId, categoria_id),
+                    ubicacion_id = coalesce(@UbicacionId, ubicacion_id),
+                    estado_id = coalesce(@EstadoId, estado_id)
+                where id = @Id
+            """;
+        
+        var parammes = new
+        {
+            request.Nombre,
+            request.Descripcion,
+            request.Precio,
+            request.EsTrueque,
+            request.CategoriaId,
+            request.UbicacionId,
+            request.EstadoId,
+            Id = id.ToString()
+        };
+        
+        var affected = await db.ExecuteAsync(sql, parammes);
+        return affected > 0;
     }
-
-    public async Task<bool> Delete(Guid id)
+    public async Task<bool> Delete(Guid Id)
     {
-        throw new NotImplementedException();
+        var sql = """
+                update articulos set activo = 0 where id = @Id
+            """;
+        
+        var affected = await db.ExecuteAsync(sql, new { Id = Id.ToString() });
+        return affected > 0;
     }
-
     public async Task<List<GetArticuloDto>> GetAll()
     {
         var sql = """
