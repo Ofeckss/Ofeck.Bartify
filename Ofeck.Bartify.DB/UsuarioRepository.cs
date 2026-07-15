@@ -92,7 +92,7 @@ public class UsuarioRepository(IDbConnection db): IUsuarioRepository
                 nombre as Nombre,
                 correo as Email,
                 password,
-                rol as Rol,
+                rol_id as Rol,
                 activo as Activo
             from usuarios
             where correo = @Email
