@@ -43,7 +43,7 @@ public class UsuarioRepository(IDbConnection db): IUsuarioRepository
         var parammes = new {
             request.Nombre,
             request.Apellido,
-            request.FechaNacimiento,
+            FechaNacimiento = request.FechaNacimiento?.ToDateTime(TimeOnly.MinValue),
             request.NumeroCel,
             request.Password,
             Id = Id.ToString()
