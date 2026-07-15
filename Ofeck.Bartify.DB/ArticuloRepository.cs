@@ -64,7 +64,7 @@ public class ArticuloRepository(IDbConnection db): IArticuloRepository
     public async Task<bool> Delete(Guid Id)
     {
         var sql = """
-                update articulos set activo = 0 where id = @Id
+                update articulos set disponible = 0 where id = @Id
             """;
         
         var affected = await db.ExecuteAsync(sql, new { Id = Id.ToString() });

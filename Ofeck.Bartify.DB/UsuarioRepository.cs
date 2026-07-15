@@ -43,7 +43,7 @@ public class UsuarioRepository(IDbConnection db): IUsuarioRepository
         var parammes = new {
             request.Nombre,
             request.Apellido,
-            request.FechaNacimiento,
+            FechaNacimiento = request.FechaNacimiento?.ToDateTime(TimeOnly.MinValue),
             request.NumeroCel,
             request.Password,
             Id = Id.ToString()
@@ -85,7 +85,7 @@ public class UsuarioRepository(IDbConnection db): IUsuarioRepository
     public async Task<LoginDTO> GetByEmail(string email)
     {
         var sql = """
-                select id as Id, nombre as Nombre, correo as Email, password, activo as Activo from usuarios where correo = @Email
+                select id as Id, nombre as Nombre, apellido as Apellido, correo as Email, password as Password, fecha_nacimiento as FechaNacimiento, numero_cel as NumeroCel, rol_id as Rol, activo as Activo from usuarios where correo = @Email
             """;
         
         return await db.QuerySingleOrDefaultAsync<LoginDTO>(sql, new { Email = email });

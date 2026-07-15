@@ -5,7 +5,7 @@ public readonly record struct UsuarioDTO
     Guid Id,
     string Nombre,
     string? Apellido,
-    DateOnly? FechaNacimiento,
+    DateTime? FechaNacimiento,
     string? NumeroCel,
     double? Rating,
     bool Activo,
