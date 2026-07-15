@@ -1,4 +1,4 @@
-﻿using System.Data;
+using System.Data;
 using Dapper;
 using Ofeck.Bartify.Core.Models;
 using Ofeck.Bartify.Core.Usuarios;
@@ -83,6 +83,8 @@ public class UsuarioRepository(IDbConnection db): IUsuarioRepository
     }
 
     public async Task<LoginDTO> GetByEmail(string email)
+{
+    try
     {
         var sql = """
                 select id as Id, nombre as Nombre, apellido as Apellido, correo as Email, password as Password, fecha_nacimiento as FechaNacimiento, numero_cel as NumeroCel, rol_id as Rol, activo as Activo from usuarios where correo = @Email
@@ -90,6 +92,12 @@ public class UsuarioRepository(IDbConnection db): IUsuarioRepository
         
         return await db.QuerySingleOrDefaultAsync<LoginDTO>(sql, new { Email = email });
     }
+    catch (Exception ex)
+    {
+        Console.WriteLine(ex.ToString());
+        throw;
+    }
+}
 
     public async Task<bool> Rate(Guid id, double rating)
     {

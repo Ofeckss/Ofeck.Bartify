@@ -1,4 +1,4 @@
-﻿namespace Ofeck.Bartify.Core.Usuarios.DTOs;
+namespace Ofeck.Bartify.Core.Usuarios.DTOs;
 
 public readonly record struct TokenRol
     (

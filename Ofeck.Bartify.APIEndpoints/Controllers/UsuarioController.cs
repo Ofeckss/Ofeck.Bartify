@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Ofeck.Bartify.APIEndpoints.Auth;
 using Ofeck.Bartify.Core.Usuarios;

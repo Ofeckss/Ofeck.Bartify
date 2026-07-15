@@ -1,4 +1,4 @@
-﻿using System.Text.RegularExpressions;
+using System.Text.RegularExpressions;
 using Ofeck.Bartify.Core.Models;
 using Ofeck.Bartify.Core.Sendbird;
 using Ofeck.Bartify.Core.Usuarios.Requests;
