@@ -83,13 +83,29 @@ public class UsuarioRepository(IDbConnection db): IUsuarioRepository
     }
 
     public async Task<LoginDTO> GetByEmail(string email)
+{
+    try
     {
         var sql = """
-                select id as Id, nombre as Nombre, correo as Email, password, rol as Rol, activo as Activo from usuarios where correo = @Email
-            """;
-        
+            select
+                id as Id,
+                nombre as Nombre,
+                correo as Email,
+                password,
+                rol as Rol,
+                activo as Activo
+            from usuarios
+            where correo = @Email
+        """;
+
         return await db.QuerySingleOrDefaultAsync<LoginDTO>(sql, new { Email = email });
     }
+    catch (Exception ex)
+    {
+        Console.WriteLine(ex.ToString());
+        throw;
+    }
+}
 
     public async Task<bool> Rate(Guid id, double rating)
     {
