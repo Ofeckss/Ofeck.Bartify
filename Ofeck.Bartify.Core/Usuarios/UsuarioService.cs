@@ -53,7 +53,7 @@ public class UsuarioService
         return true;
     }
 
-    public async Task<TokenRol> Login(LoginUserRequest request)
+    public async Task<LoginDTO> Login(LoginUserRequest request)
     {
         var account = await this.repository.GetByEmail(request.Email);
 
@@ -66,12 +66,7 @@ public class UsuarioService
         if(!validPass)
             throw new UnauthorizedAccessException("Credenciales inválidas.");
 
-        return new TokenRol {
-            Id = account.Id,
-            Email = account.Email,
-            Nombre = account.Nombre,
-            Rol = account.Rol
-        };
+        return account;
     }
 
     public async Task<UsuarioDTO> GetById(Guid id)

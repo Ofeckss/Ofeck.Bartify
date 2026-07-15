@@ -52,8 +52,20 @@ public class UsuarioController: ControllerBase
                 SameSite = SameSiteMode.None,
                 Expires = DateTimeOffset.UtcNow.AddDays(1)
             });
+            
+            DateOnly? fecha = login.FechaNacimiento is DateTime dt
+                ? DateOnly.FromDateTime(dt)
+                : null;
 
-            return this.Ok(new { id = login.Id, nombre = login.Nombre, email = login.Email, rol = login.Rol });
+            return this.Ok(new {
+                id = login.Id, 
+                nombre = login.Nombre, 
+                apellido = login.Apellido, 
+                email = login.Email, 
+                fecha_nacimiento = fecha,
+                numero_cel = login.NumeroCel,
+                rol = login.Rol
+            });
         } 
         catch (UnauthorizedAccessException)
         {

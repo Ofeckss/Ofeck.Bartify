@@ -87,17 +87,9 @@ public class UsuarioRepository(IDbConnection db): IUsuarioRepository
     try
     {
         var sql = """
-            select
-                id as Id,
-                nombre as Nombre,
-                correo as Email,
-                password,
-                rol_id as Rol,
-                activo as Activo
-            from usuarios
-            where correo = @Email
-        """;
-
+                select id as Id, nombre as Nombre, apellido as Apellido, correo as Email, password as Password, fecha_nacimiento as FechaNacimiento, numero_cel as NumeroCel, rol_id as Rol, activo as Activo from usuarios where correo = @Email
+            """;
+        
         return await db.QuerySingleOrDefaultAsync<LoginDTO>(sql, new { Email = email });
     }
     catch (Exception ex)
