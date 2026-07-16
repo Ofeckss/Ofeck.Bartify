@@ -12,5 +12,5 @@ public readonly record struct Usuario
     string Password,
     bool Activo,
     DateTime FechaCreacion,
-    int RolId
+    int Rol
 );
